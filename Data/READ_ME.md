@@ -70,7 +70,8 @@ A geographic vector file used for frontend rendering and spatial visualization.
 ---
 
 ## 6. Model Parameters (`calibrated_parameters_filtered.csv`)
-This file contains the industry-specific coefficients for the Huff Gravity Model. This version has been strictly filtered to include only high-performing categories (Correlation > 0.25) with sufficient historical data (> 50 records).
+This file contains the industry-specific coefficients for the Huff Gravity Model. This version has been strictly filtered to include only high-performing categories (Correlation > 0.25) with sufficient historical data (> 50 records). 
+For this project, a grid search approach was utilized to compute the parameters alpha and beta (See the code notebook in this folder worcester_huff_gravity_parameter_calibration.ipynb).
 
 | Column | Description | Data Type |
 | :--- | :--- | :--- |
