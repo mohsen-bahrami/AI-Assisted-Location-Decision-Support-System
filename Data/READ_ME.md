@@ -90,7 +90,7 @@ $$P_{ij} = \frac{U_{ij}}{\sum_{k=1}^n U_{ik}}$$
 
 ---
 
-**Development Guidelines:**
+### **Development Guidelines:**
 * **Parameter Selection:** Your backend should query this file (or an equivalent SQL table) based on the `top_category` of the business the user is simulating.
 * **Fallback Strategy:** If a user selects a business category not found in this file, the system should default to **Alpha = 1.0** and **Beta = 1.0** (Neutral Gravity).
 * **Interpretability:** When the AI provides a recommendation, it should reference these values to explain its reasoning (e.g., *"Because this is a Medical Office with a high Beta of 3.0, proximity to residents is the primary driver of your 15% market share."*)
