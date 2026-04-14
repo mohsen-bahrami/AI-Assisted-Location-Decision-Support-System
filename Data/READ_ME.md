@@ -69,33 +69,34 @@ A geographic vector file used for frontend rendering and spatial visualization.
 
 ---
 
-## 6. Model Parameters (`calibrated_parameters_full.csv`)
-This file contains the "Intelligence" of the Urban Analyst SDSS. It provides the industry-specific sensitivity coefficients used in the Huff Gravity Model calculations.
+## 6. Model Parameters (`calibrated_parameters_filtered.csv`)
+This file contains the industry-specific coefficients for the Huff Gravity Model. This version has been strictly filtered to include only high-performing categories (Correlation > 0.25) with sufficient historical data (> 50 records).
 
 | Column | Description | Data Type |
 | :--- | :--- | :--- |
-| **category** | The high-level business classification (Top Category). | String |
-| **alpha** | The **Attractiveness Sensitivity**. High values (e.g., 3.0) indicate that users are strongly drawn to larger physical footprints (destinations). | Float |
-| **beta** | The **Distance Decay**. High values (e.g., 3.0) indicate that users are highly sensitive to travel distance (local/convenience-driven). | Float |
-| **correlation** | The Pearson correlation coefficient from the grid search. Represents how well size and distance explain the observed behavior for this category. | Float (0-1) |
+| **top_category** | High-level business classification. | String |
+| **NAICS code** | The standard North American Industry Classification System code. | Integer |
+| **alpha** | **Attractiveness Sensitivity**. Represents the "Pull" of the store's physical size. | Float |
+| **beta** | **Distance Decay**. Represents the "Friction" of travel distance to the site. | Float |
+| **correlation** | The Pearson Correlation (r) between predicted shares and historical visit data. | Float (0-1) |
 
 ---
 
-### **Implementation Logic for Developers**
+## **Implementation Logic for Developers**
 To calculate the probability ($P_{ij}$) that a resident from a neighborhood ($i$) will visit a specific site ($j$), use the following formula integrated with these parameters:
 
 $$U_{ij} = \frac{Area_j^\alpha}{Distance_{ij}^\beta}$$
 
 $$P_{ij} = \frac{U_{ij}}{\sum_{k=1}^n U_{ik}}$$
 
----
 
 ### **Development Guidelines:**
-* **Parameter Selection:** Your backend should query this file (or an equivalent SQL table) based on the `top_category` of the business the user is simulating.
+* **Parameter Selection:** Your backend should query this file (or an equivalent SQL table) based on the `top_category` or `NAICS code` associated with the user's business.
 * **Fallback Strategy:** If a user selects a business category not found in this file, the system should default to **Alpha = 1.0** and **Beta = 1.0** (Neutral Gravity).
+* **Data Quality Warning:** If a selected category has a correlation near 0.25, the AI should advise the user that the "Size and Distance" factors are moderately predictive, but other factors (like brand power) may apply.
+* **Fallback:** If no match is found, revert to the "Neutral Gravity" baseline ($\alpha=1.0, \beta=1.0$).
 * **Interpretability:** When the AI provides a recommendation, it should reference these values to explain its reasoning (e.g., *"Because this is a Medical Office with a high Beta of 3.0, proximity to residents is the primary driver of your 15% market share."*)
 
----
 
 ### **Implementation Guidelines**
 1.  **Coordinate System:** All latitude/longitude values are in WGS84 Decimal Degrees.
