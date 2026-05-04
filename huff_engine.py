@@ -49,8 +49,8 @@ GEOJSON_PATH = DATA_DIR / "worcester_cbgs_map.geojson"
 
 params = pd.read_csv(PARAMS_PATH)
 pois = pd.read_csv(POIS_PATH)
-dist_matrix = pd.read_csv(DISTANCE_PATH)
-visits = pd.read_csv(VISITS_PATH, compression="zip")
+dist_matrix = pd.read_csv(DISTANCE_PATH, compression="zip")
+visits = pd.read_csv(VISITS_PATH)
 
 # Read GeoJSON and project to UTM 19N for distance calculations in meters.
 try:
