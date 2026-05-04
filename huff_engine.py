@@ -324,7 +324,7 @@ def _safe_float(value):
         return None
 
 
-# Local quick test:
+# Local quick test, the result should be 16.99:
 # result = run_huff_model(
 #     candidate_lat=42.24,
 #     candidate_lon=-71.78,
