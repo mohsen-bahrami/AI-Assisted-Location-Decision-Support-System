@@ -210,6 +210,7 @@ def huff(naics, X, Y, Aj, params, pois, dist_matrix, visits, geocbgs):
 
     # Competitor sample for map/table display.
     # This is intentionally lightweight for the baseline dashboard.
+    # competitors aresample POIs from the same NAICS code as user input naics
     competitors = (
         naics_pois.head(20)
         .fillna("")
